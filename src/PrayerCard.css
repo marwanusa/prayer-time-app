@@ -1,0 +1,10 @@
+.prayer-card  {
+    width: 14vw;
+    margin: 10px;
+  }
+
+  @media (max-width: 600px) { 
+    .prayer-card {
+      width: 100%;
+    }
+  }

@@ -1,5 +1,6 @@
 import Divider from "@mui/material/Divider";
 import PrayerCard from "./PrayerCard";
+import "../MainContent.css";
 import Grid from "@mui/material/Unstable_Grid2";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,7 +10,9 @@ import axios from "axios";
 import moment from "moment";
 import "moment/dist/locale/ar";
 import { useEffect, useState } from "react";
+
 moment.locale("ar");
+
 export default function MainContent() {
   const [city, setCity] = useState("");
   const [open, setOpen] = useState(false);
@@ -21,8 +24,8 @@ export default function MainContent() {
     Maghrib: "18:03",
     Isha: "19:33",
   });
-  const [nextPrayerIndex , setNextPrayerIndex] = useState(0)
-  const [prayerCountDown , setPrayerCountDown] = useState(0)
+  const [nextPrayerIndex, setNextPrayerIndex] = useState(0);
+  const [prayerCountDown, setPrayerCountDown] = useState(0);
 
   const cities = [
     {
@@ -38,6 +41,7 @@ export default function MainContent() {
       apiName: "Hurghada",
     },
   ];
+
   const prayersArray = [
     { key: "Fajr", displayName: "الفجر" },
     { key: "Dhuhr", displayName: "الظهر" },
@@ -86,51 +90,53 @@ export default function MainContent() {
 
   function setupCountDown() {
     let momentNow = moment();
-    let prayerIndex ;
-    if(
+    let prayerIndex;
+    if (
       momentNow.isAfter(moment(theTimings["Fajr"], "hh:mm")) &&
       momentNow.isBefore(moment(theTimings["Dhuhr"], "hh:mm"))
     ) {
-      prayerIndex = 1 ;
-      
-
+      prayerIndex = 1;
     } else if (
       momentNow.isAfter(moment(theTimings["Dhuhr"], "hh:mm")) &&
       momentNow.isBefore(moment(theTimings["Asr"], "hh:mm"))
     ) {
-      prayerIndex = 2 ;
+      prayerIndex = 2;
     } else if (
       momentNow.isAfter(moment(theTimings["Asr"], "hh:mm")) &&
       momentNow.isBefore(moment(theTimings["Maghrib"], "hh:mm"))
     ) {
-      prayerIndex = 3 ;
+      prayerIndex = 3;
     } else if (
       momentNow.isAfter(moment(theTimings["Maghrib"], "hh:mm")) &&
       momentNow.isBefore(moment(theTimings["Isha"], "hh:mm"))
     ) {
-      prayerIndex = 4 ;
+      prayerIndex = 4;
     } else {
-      prayerIndex = 0 ;
+      prayerIndex = 0;
     }
-    setNextPrayerIndex(prayerIndex)
+    setNextPrayerIndex(prayerIndex);
 
     let nextPrayerObj = prayersArray[prayerIndex];
     let nextPrayerTime = theTimings[nextPrayerObj.key];
-    let remainingTime = moment(nextPrayerTime,"hh:mm").diff(momentNow)
-    if(remainingTime < 0){
-      const midnightDiff = moment("23:59:59","hh:mm:ss").diff(momentNow)
-      const fajrDiff = moment(nextPrayerTime,"hh:mm").diff(moment("00:00:00","hh:mm:ss"))
-      const totalDiff = midnightDiff + fajrDiff ;
-      remainingTime = totalDiff
+    let remainingTime = moment(nextPrayerTime, "hh:mm").diff(momentNow);
+    if (remainingTime < 0) {
+      const midnightDiff = moment("23:59:59", "hh:mm:ss").diff(momentNow);
+      const fajrDiff = moment(nextPrayerTime, "hh:mm").diff(
+        moment("00:00:00", "hh:mm:ss")
+      );
+      const totalDiff = midnightDiff + fajrDiff;
+      remainingTime = totalDiff;
     }
     let durationRemainingTime = moment.duration(remainingTime);
-    setPrayerCountDown(`${durationRemainingTime.seconds()} : ${durationRemainingTime.minutes()} : ${durationRemainingTime.hours()}`)
+    setPrayerCountDown(
+      `${durationRemainingTime.seconds()} : ${durationRemainingTime.minutes()} : ${durationRemainingTime.hours()}`
+    );
   }
 
   return (
     <>
-      <Grid container style={{ margin: "0 70px" }}>
-        <Grid xs={6}>
+<Grid container style={{ margin: "0 70px" }} spacing={2}>
+        <Grid item xs={12} md={6}>
           <div>
             <h2>{today}</h2>
             <h1>
@@ -145,8 +151,8 @@ export default function MainContent() {
             </h1>
           </div>
         </Grid>
-        <Grid xs={6}>
-          <div>
+        <Grid item xs={12} md={6}>
+          <div className="countDownInfo">
             <h2>متبقي حتي صلاة {prayersArray[nextPrayerIndex].displayName}</h2>
             <h1>{prayerCountDown}</h1>
           </div>
@@ -154,38 +160,42 @@ export default function MainContent() {
       </Grid>
       <Divider style={{ borderColor: "white", opacity: "0.1" }} />
       {/* Prayers Cards Start */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="prayer-container">
+        <div className={"prayer-card"}>
         <PrayerCard
           prayer={"الفجر"}
           image={"9a07baa7-b49b-4f6b-99fb-2d2b908800c2"}
           time={theTimings.Fajr}
         />
+        </div>
+        <div className={"prayer-card"}>
         <PrayerCard
           prayer={"الظهر"}
           image={"9a07bb45-6a42-4145-b6aa-2470408a2921"}
           time={theTimings.Dhuhr}
         />
+        </div>
+        <div className={"prayer-card"}>
         <PrayerCard
           prayer={"العصر"}
           image={"9a07bb90-1edc-410f-a29a-d260a7751acf"}
           time={theTimings.Asr}
         />
+        </div>
+        <div className={"prayer-card"}>
         <PrayerCard
           prayer={"المغرب"}
           image={"9a07bbe3-4dd1-43b4-942e-1b2597d4e1b5"}
           time={theTimings.Maghrib}
         />
+        </div>
+        <div className={"prayer-card"}>
         <PrayerCard
           prayer={"العشاء"}
           image={"9a07bc25-1200-4873-8743-1c370e9eff4d"}
           time={theTimings.Isha}
         />
+        </div>
       </div>
       {/* Prayers Cards End */}
       {/* Select City Start*/}

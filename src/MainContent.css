@@ -1,0 +1,17 @@
+.prayer-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 600px) { 
+  .prayer-container {
+    flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .main-content-container {
+    margin: 0 10px;
+  }
+}
+
