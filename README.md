@@ -22,7 +22,7 @@ This project is a Prayer Time Countdown App developed using React.js and Vite. I
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/prayer-time-countdown-app.git
+    git clone https://github.com/marwanusa/prayer-time-countdown-app.git
     ```
 
 2. Navigate to the project directory:
